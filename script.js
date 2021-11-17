@@ -1,85 +1,282 @@
-// let js = 'amazing';
-// console.log(40 + 9 + 98);
-// let firstName = 'Sam';
+'use strict';
+
+// Data needed for a later exercise
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+// Data needed for first part of the section
+const restaurant = {
+  name: 'Classico Italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+  starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+  mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+
+  order:function(starterIndex,mainIndex){
+    return [this.starterMenu[starterIndex],this.mainMenu[mainIndex]]
+  },
+
+  //es6 method to declare function
+  orderDelivery({starterIndex,mainIndex,time}){
+    console.log(`${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} delivered at${time}`);
+    
+  },
+
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // Open 24 hours
+      close: 24,
+    },
+  },
+};
+ 
+restaurant.orderDelivery({
+  time:'5pm',
+  starterIndex:2,
+  mainIndex:2
+})
+
+//optional chaining
+console.log(restaurant.openingHours.mon?.open);// returns undefined instead of error
+
+const days=['mon','tue','wed','thu','fri','sat'];
+
+//optional chaining and nullish operator
+for (const i of days){
+  const open= restaurant.openingHours[i]?.open??'closed';
+  console.log(`${i}: open at ${open}`);
+}
+
+//optional chaining on functions
+console.log(restaurant.order?.poda??'method not found');
+ console.log(restaurant['openingHours']['fri']); 
 
 
-// 1. Values and Variables
-let country = 'India';
-let continent = 'Asia';
-let population = 1300000000;
-console.log(country);
-console.log(continent);
-console.log(population);
+ // looping over objects using keys
 
-// 2. Data Types
-let isIsland = false;
-// let language;
-console.log(isIsland);
-// console.log(language);
-// console.log(typeof country);
+ for (const i of Object.keys(restaurant.openingHours)){
+   console.log(i);
+ }
 
-// 3. let, const and var
-const language = 'Malayalam';
-console.log(language);
+  
+ // looping over objects using values
 
-//4. : Basic Operators
-console.log(population / 2);
-population += 1;
-console.log(population);
-if (population > 60000000) console.log('yes');
-else console.log('no');
-if (population > 33000000) console.log('yes');
-else console.log('no');
-const description = country + ' is in ' + continent + ' and its ' + population + ' people speak ' + language;
-console.log(description);
+ for (const i of Object.values(restaurant.openingHours)){
+  console.log(i);
+}
 
-// CODING CHALLENGE #1
-const heightMark = 1.69;
-const heightJohn = 1.95;
-const weightMark = 78;
-const weightJohn = 92;
+ // looping over objects using entries
 
-let bmiMark = weightMark / (heightMark ** 2);
-let bmiJohn = weightJohn / (heightJohn ** 2);
+ for (const [key,{open,close}] of Object.entries(restaurant.openingHours)){
+  console.log('key:',key,'open:' ,open,'close', close);
+}
 
-console.log('Mark:', bmiMark, 'John:', bmiJohn);
 
-const markHigherBmi = bmiMark > bmiJohn;
-console.log(markHigherBmi);
+// //object destructuring
+// const {name,openingHours,categories} = restaurant;
+// // console.log(name,openingHours,categories);
+ 
+// // using new variable names
+// const {name:x,openingHours:y,categories:z} = restaurant;
+// console.log(x,y,z);
 
-//5.  Strings and Template Literals
-console.log(`${country} is in ${continent} and its ${population} people speak ${language}. 😊`);
+// //adding default value
+// const {menu=[],starterMenu:starter=[],mainMenu:main=[]} = restaurant;
+// console.log(menu,starter,main);
+
+// //mutating variables for objects
+// console.log('__________________________________________________');
+// let a=12;
+// let b=15;
+// console.log(a,b);
+// const obj={a:7,b:22,c:1};
+// ({a,b}=obj);
+// console.log(a,b);
+
+// //nested objects
+// const {fri:{open,close}}=openingHours;
+// console.log(open,close);
+
+
+// // destructuring array
+// const array1 =[1,2,3,4];
+// const [a,b,c,d]= array1;
+// console.log(a,b,c,d);
+
+// // let [first,second]=restaurant.categories;
+// // console.log(first,second);
+// // to skip an element
+// let [first,,second]=restaurant.categories;
+// console.log(first,second);
+
+// // swaping using array destructuring
+// [first,second]=[second,first]
+// console.log(first,second);
+
+// const [starter,maincourse]=restaurant.order(2,0);
+// console.log(starter,maincourse);
+
+// // destruct in nested array
+// const nestedArray = [2,4,[5,6]];
+// // let [i,,j] =nestedArray;
+// // console.log(i,j); 
+
+// // destruct inner array
+// let [i,,[j,k]] =nestedArray;
+// console.log(i,j,k);
+
+// CODING CHALLENGE#1
+
+const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+  [
+  'Neuer',
+  'Pavard',
+  'Martinez',
+  'Alaba',
+  'Davies',
+  'Kimmich',
+  'Goretzka',
+  'Coman',
+  'Muller',
+  'Gnarby',
+  'Lewandowski',
+  ],
+  [
+  'Burki',
+  'Schulz',
+  'Hummels',
+  'Akanji',
+  'Hakimi',
+  'Weigl',
+  'Witsel',
+  'Hazard',
+  'Brandt',
+  'Sancho',
+  'Gotze',
+  ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski',
+  'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+  team1: 1.33,
+  x: 3.25,
+  team2: 6.5,
+
+  
+  },
+  printGoals:function(...players){
+    console.log(`the players were ${players} and they scored ${players.length} goals`);
+}
+  };
+
+//   const [player1,player2]=game.players;
+//   console.log(player1,player2);
+
+//   const [gk,...fieldplayers]=player1;
+//   console.log(gk,fieldplayers);
+
+//   const allPlayers = [...player1,...player2];
+//   console.log(allPlayers);
+
+//   const players1Final = [...player1,'Thiago', 'Coutinho', 'Perisic'];
+//   console.log(players1Final);
+
+//   const {team1,x:draw,team2} = game.odds;
+//   console.log(team1,draw,team2);
+
+//   game.printGoals(game.scored);
+//   // game.printGoals(['a','b','c','d']);
+
+//   team1>team2 || console.log('team 1 will win');
+
+//   // for of loop
+//   const menu=[...restaurant.starterMenu,...restaurant.mainMenu];
+//   for (const i of menu) console.log(i);
+
+//   // to get index along with item
+//   for (const i of menu.entries()) console.log(i);
+
+//   // //only index
+//   // for (const i in menu) console.log(i);
+
+//   //destructuring
+//   for (const [i,j] of menu.entries()) console.log(`item ${i+1}: ${j}`);
 
 // CODING CHALLENGE #2
-if (bmiJohn > bmiMark) {
-    console.log(`John has greater BMI of ${bmiJohn}`);
-}
-else {
-    console.log(`Mark has greater BMI of ${bmiMark}`);
-}
+// for (const [j,i] of game.scored.entries()){
+//   console.log(`Goal ${j+1}: ${i}`);
+// }
+// let avg=0;
+// const odds=Object.values(game.odds);
+// for (const i of odds) {
+//   console.log(avg+=i);
+//   // avg+=i;
 
-//CODING CHALLENGE #3
-const dolphinsScore1 = 109;
-const dolphinsScore2 = 108;
-const dolphinsScore3 = 89;
+// }
+// console.log(avg);
+// avg=avg/odds.length;
+// console.log(avg);
 
-const koalasScore1 = 88;
-const koalasScore2 = 108;
-const koalasScore3 = 110;
+// for (const [i,j] of Object.entries(game.odds)) {
+//   const str = i==='x'?'draw':`victory ${game[i]}` ;
+//   console.log(`Odd of ${str} is ${j}`);
+// }
 
-const dolphinsAverage = (dolphinsScore1 + dolphinsScore2 + dolphinsScore3) / 3;
-const koalasAverage = (koalasScore1 + koalasScore2 + koalasScore3) / 3;
+// const scorers = {};
+// for (const player of game.scored) {
+//   scorers[player] ? scorers[player]++ : (scorers[player] = 1);
+// }
+// console.log(scorers);
 
-console.log(dolphinsAverage, koalasAverage);
+// //operations on map
+// const map1 = new Map([[1,'t'],[2,'f'],[3,'t']]);
+// console.log(map1);
+// const arrMap =[...map1];
+// console.log(arrMap);
+// console.log([...map1.keys()]);
+// console.log([...map1.values()]);
 
-if (dolphinsAverage > koalasAverage && dolphinsAverage >= 100) console.log("Dolphins Win!!!");
-else if (dolphinsAverage < koalasAverage && koalasAverage >= 100) console.log('Koalas Win!!!');
-else if (koalasAverage === dolphinsAverage && koalasAverage >= 100 && dolphinsAverage >= 100) console.log('Its a Draw!!!');
-else console.log('Nobody wins!!!');
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '� Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '� Substitution'],
+  [64, '� Yellow card'],
+  [69, '� Red card'],
+  [70, '� Substitution'],
+  [72, '� Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '� Yellow card'],
+  ]);
 
-//CODING CHALLENGE #4
-const bill = 430;
-const tip = (bill >= 50 && bill <= 300) ? bill * .15 : bill * .2;
-console.log(`Bill:${bill}
-Tip:${tip}
-Total:${bill + tip}`);
+// CODING CHALLENGE #3
+
+//1
+const events = [...new Set(gameEvents.values())];
+console.log(events);
+
+//2
+gameEvents.delete(64);
+console.log(gameEvents);
+
+//3
+console.log(`An event happened, on average, every ${90/gameEvents.size} minutes.` );
+
+//4
+for(const [i,j] of gameEvents){
+  i<=45 ? console.log(`[FIRST HALF] ${i}: ${j}`): console.log(`[SECOND HALF] ${i}: ${j}`);
+} 
